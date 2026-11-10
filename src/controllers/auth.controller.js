@@ -1,3 +1,5 @@
+'use strict';
+
 // Auth route handlers
 const asyncHandler = require('../utils/asyncHandler');
 const { ok } = require('../utils/response');

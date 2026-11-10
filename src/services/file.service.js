@@ -4,6 +4,7 @@ const fs = require('fs/promises');
 const prisma = require('../config/prisma');
 const AppError = require('../utils/AppError');
 const { ERROR_CODES, LIMITS } = require('../constants');
+const cloudinaryService = require('./cloudinary.service');
 
 const RECORDS_UPLOAD_DIR = path.join(__dirname, '..', '..', 'uploads', 'records');
 const PROFILE_UPLOAD_DIR = path.join(__dirname, '..', '..', 'uploads', 'profile');
@@ -159,7 +160,11 @@ const deleteAllUserFiles = async (userId) => {
   });
 
   if (user && user.profileImage) {
-    await safeUnlink(path.join(PROFILE_UPLOAD_DIR, user.profileImage));
+    if (user.profileImage.startsWith('http')) {
+      await cloudinaryService.deleteImage(user.profileImage);
+    } else {
+      await safeUnlink(path.join(PROFILE_UPLOAD_DIR, user.profileImage));
+    }
   }
 };
 

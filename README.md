@@ -12,7 +12,8 @@ A REST API for a clinic management system built with Node.js, Express, PostgreSQ
 - **ORM:** Prisma (`@prisma/client`, `prisma`)
 - **Authentication:** `jsonwebtoken` (Bearer access token only), `bcryptjs` (Cost 10)
 - **Validation:** `zod`
-- **File Uploads:** `multer` (Disk storage)
+- **File Uploads:** `multer` (Disk storage & Cloudinary cloud storage)
+- **Cloud Media:** `cloudinary` (Profile image cloud storage)
 - **Email:** `nodemailer` over SMTP
 - **Security:** `helmet`, `cors`, `express-rate-limit`
 - **Development:** `nodemon`
@@ -33,6 +34,7 @@ clinic-api/
     config/
       env.js           # Environment variable validation & exports
       prisma.js        # PrismaClient singleton instance
+      cloudinary.js    # Cloudinary v2 configuration
       mailer.js        # Nodemailer SMTP transporter
       multer.js        # Multer upload configuration & filters
     middlewares/
@@ -57,6 +59,7 @@ clinic-api/
       otp.service.js
       email.service.js
       user.service.js
+      cloudinary.service.js # Cloudinary upload and deletion operations
       healthRecord.service.js
       file.service.js
       admin.service.js
@@ -111,6 +114,9 @@ cp .env.example .env
 | `MAIL_FROM` | Outgoing email `From` address | `Clinic <you@gmail.com>` |
 | `OTP_EXPIRY_MINUTES`| OTP expiration duration in minutes | `10` |
 | `CORS_ORIGIN` | Allowed CORS origin | `http://localhost:3000` |
+| `CLOUDINARY_CLOUD_NAME` | Cloudinary account cloud name (optional) | `your_cloud_name` |
+| `CLOUDINARY_API_KEY` | Cloudinary API Key (optional) | `your_api_key` |
+| `CLOUDINARY_API_SECRET` | Cloudinary API Secret (optional) | `your_api_secret` |
 
 ---
 
@@ -161,9 +167,9 @@ All routes are mounted under the `/api` prefix.
 ### Authentication (`/api/auth`)
 | Method | Endpoint | Body Parameters | Description |
 |---|---|---|---|
-| `POST` | `/api/auth/register` | `name`, `email`, `password` | Register a new patient account (creates OTP) |
+| `POST` | `/api/auth/register` | `name`, `email`, `password` | Register a new patient account (creates OTP sent via email) |
 | `POST` | `/api/auth/verify-otp` | `email`, `otp` | Verify 6-digit OTP, verifies user & returns JWT |
-| `POST` | `/api/auth/resend-otp` | `email` | Resend verification OTP (60s cooldown) |
+| `POST` | `/api/auth/resend-otp` | `email` | Resend verification OTP via email (60s cooldown) |
 | `POST` | `/api/auth/login` | `email`, `password` | Authenticate user & return JWT token |
 
 ### Profile (`/api/me`)

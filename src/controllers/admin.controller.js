@@ -18,10 +18,13 @@ const getUserDetail = asyncHandler(async (req, res) => {
   ok(res, result);
 });
 
-/** Stream a user's profile image */
+/** Stream or redirect to a user's profile image */
 const getUserProfileImage = asyncHandler(async (req, res) => {
-  const filePath = await userService.getProfileImage(req.params.userId);
-  res.sendFile(filePath);
+  const image = await userService.getProfileImage(req.params.userId);
+  if (image.isRemote) {
+    return res.redirect(image.url);
+  }
+  res.sendFile(image.path);
 });
 
 /** Download a specific file belonging to a user */

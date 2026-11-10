@@ -29,10 +29,13 @@ const uploadProfileImage = asyncHandler(async (req, res) => {
   ok(res, user);
 });
 
-// Streams the authenticated user's profile image
+// Streams or redirects to the authenticated user's profile image
 const getProfileImage = asyncHandler(async (req, res) => {
-  const filePath = await userService.getProfileImage(req.user.id);
-  res.sendFile(path.resolve(filePath));
+  const image = await userService.getProfileImage(req.user.id);
+  if (image.isRemote) {
+    return res.redirect(image.url);
+  }
+  res.sendFile(path.resolve(image.path));
 });
 
 // Deletes the authenticated user's profile image

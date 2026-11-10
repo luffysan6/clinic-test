@@ -44,6 +44,11 @@ const mailFrom = process.env.MAIL_FROM;
 const otpExpiryMinutes = parseInt(process.env.OTP_EXPIRY_MINUTES, 10) || 10;
 const corsOrigin = process.env.CORS_ORIGIN || 'http://localhost:3000';
 
+// Cloudinary configuration (optional: falls back to local disk storage if unconfigured)
+const cloudinaryCloudName = process.env.CLOUDINARY_CLOUD_NAME || '';
+const cloudinaryApiKey = process.env.CLOUDINARY_API_KEY || '';
+const cloudinaryApiSecret = process.env.CLOUDINARY_API_SECRET || '';
+
 const config = Object.freeze({
   NODE_ENV: nodeEnv,
   PORT: port,
@@ -60,6 +65,9 @@ const config = Object.freeze({
   MAIL_FROM: mailFrom,
   OTP_EXPIRY_MINUTES: otpExpiryMinutes,
   CORS_ORIGIN: corsOrigin,
+  CLOUDINARY_CLOUD_NAME: cloudinaryCloudName,
+  CLOUDINARY_API_KEY: cloudinaryApiKey,
+  CLOUDINARY_API_SECRET: cloudinaryApiSecret,
 
   // camelCase aliases
   nodeEnv,
@@ -77,6 +85,9 @@ const config = Object.freeze({
   mailFrom,
   otpExpiryMinutes,
   corsOrigin,
+  cloudinaryCloudName,
+  cloudinaryApiKey,
+  cloudinaryApiSecret,
 });
 
 module.exports = config;

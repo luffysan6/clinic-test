@@ -1,3 +1,5 @@
+'use strict';
+
 // Authentication business logic service
 const bcrypt = require('bcryptjs');
 const prisma = require('../config/prisma');

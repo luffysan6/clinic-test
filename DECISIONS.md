@@ -58,3 +58,12 @@ This document records technical and architectural decisions made during the impl
 - **Decision:** Created `prisma/migrations/20261109000000_init/migration.sql` capturing the entire schema (tables, enums, indices, foreign key cascades).
 - **Rationale:** Guarantees that running `npx prisma migrate dev` or `npx prisma migrate deploy` succeeds on fresh PostgreSQL instances without manual SQL intervention.
 
+---
+
+### 9. Cloudinary for Image Uploads
+- **Context:** The user requested adding Cloudinary for image uploads. Section 2 requires written justification in `DECISIONS.md` for any new runtime dependencies.
+- **Decision:** Installed and configured the `cloudinary` SDK (v2). When `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, and `CLOUDINARY_API_SECRET` are provided in `.env`, profile images uploaded via `PUT /api/me/profile-image` are sent to Cloudinary under the `clinic/profiles` directory and unlinked from local disk storage. Previous images are destroyed from Cloudinary on replacement, image deletion, or user deletion. Endpoints serving the profile image (`GET /api/me/profile-image` and `GET /api/admin/users/:userId/profile-image`) redirect to the Cloudinary CDN URL. If Cloudinary credentials are not configured, the system gracefully falls back to local disk storage.
+- **Rationale:** Offloads media storage and delivery to Cloudinary's optimized media CDN while preserving full backward compatibility for local development and offline testing.
+
+
+

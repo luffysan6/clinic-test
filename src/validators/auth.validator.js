@@ -1,3 +1,5 @@
+'use strict';
+
 // Zod validation schemas for auth routes
 const { z } = require('zod');
 
