@@ -49,7 +49,12 @@ const sendOtpEmail = async (to, name, otp) => {
       html,
     });
   } catch (err) {
-    logger.error('Failed to send OTP email:', err.message);
+    logger.error('Failed to send OTP email:', {
+      message: err.message,
+      code: err.code,
+      response: err.response,
+      command: err.command,
+    });
     throw new AppError(502, ERROR_CODES.EMAIL_SEND_FAILED, 'Failed to send verification email');
   }
 };

@@ -94,7 +94,7 @@ clinic-api/
 Copy `.env.example` to `.env` and fill in your values:
 
 ```bash
-cp .env.example .env
+cp .env.example .env 
 ```
 
 | Variable | Description | Example / Default |
