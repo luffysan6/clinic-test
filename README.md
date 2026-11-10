@@ -117,6 +117,7 @@ cp .env.example .env
 | `CLOUDINARY_CLOUD_NAME` | Cloudinary account cloud name (optional) | `your_cloud_name` |
 | `CLOUDINARY_API_KEY` | Cloudinary API Key (optional) | `your_api_key` |
 | `CLOUDINARY_API_SECRET` | Cloudinary API Secret (optional) | `your_api_secret` |
+| `RESEND_API_KEY` | Resend API Key for Render Free HTTPS email (optional) | `re_123456789` |
 
 ---
 

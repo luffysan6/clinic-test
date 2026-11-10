@@ -48,6 +48,9 @@ const corsOrigin = process.env.CORS_ORIGIN || 'http://localhost:3000';
 const cloudinaryCloudName = process.env.CLOUDINARY_CLOUD_NAME || '';
 const cloudinaryApiKey = process.env.CLOUDINARY_API_KEY || '';
 const cloudinaryApiSecret = process.env.CLOUDINARY_API_SECRET || '';
+  
+// Optional Resend HTTP Email API (works over Port 443 for Render Free tier)
+const resendApiKey = process.env.RESEND_API_KEY || '';
 
 const config = Object.freeze({
   NODE_ENV: nodeEnv,
@@ -68,6 +71,7 @@ const config = Object.freeze({
   CLOUDINARY_CLOUD_NAME: cloudinaryCloudName,
   CLOUDINARY_API_KEY: cloudinaryApiKey,
   CLOUDINARY_API_SECRET: cloudinaryApiSecret,
+  RESEND_API_KEY: resendApiKey,
 
   // camelCase aliases
   nodeEnv,
@@ -88,6 +92,7 @@ const config = Object.freeze({
   cloudinaryCloudName,
   cloudinaryApiKey,
   cloudinaryApiSecret,
+  resendApiKey,
 });
 
 module.exports = config;

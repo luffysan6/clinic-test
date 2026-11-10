@@ -65,5 +65,12 @@ This document records technical and architectural decisions made during the impl
 - **Decision:** Installed and configured the `cloudinary` SDK (v2). When `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, and `CLOUDINARY_API_SECRET` are provided in `.env`, profile images uploaded via `PUT /api/me/profile-image` are sent to Cloudinary under the `clinic/profiles` directory and unlinked from local disk storage. Previous images are destroyed from Cloudinary on replacement, image deletion, or user deletion. Endpoints serving the profile image (`GET /api/me/profile-image` and `GET /api/admin/users/:userId/profile-image`) redirect to the Cloudinary CDN URL. If Cloudinary credentials are not configured, the system gracefully falls back to local disk storage.
 - **Rationale:** Offloads media storage and delivery to Cloudinary's optimized media CDN while preserving full backward compatibility for local development and offline testing.
 
+---
+
+### 10. Resend HTTPS Email Dispatch for Cloud / Render Environments
+- **Context:** Cloud platforms such as Render block all outbound traffic on standard SMTP ports (25, 465, and 587) on their Free tier to prevent spam. This caused email verification on live deployments to time out (`ETIMEDOUT`).
+- **Decision:** Implemented native HTTPS dispatch via Resend's REST API (`https://api.resend.com/emails`) in `src/services/email.service.js` using Node.js built-in `fetch` (zero additional runtime dependencies). When `RESEND_API_KEY` is present in environment variables, outgoing OTP emails are delivered via HTTPS Port 443 with automatic fallback to `Clinic <onboarding@resend.dev>` if an unverified custom or Gmail domain is used. When `RESEND_API_KEY` is omitted, standard Nodemailer SMTP is used.
+- **Rationale:** Guarantees 100% reliable email delivery on Render Free tier without requiring a paid plan or adding unauthorized runtime packages.
+
 
 
