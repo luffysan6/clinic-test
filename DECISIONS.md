@@ -67,10 +67,10 @@ This document records technical and architectural decisions made during the impl
 
 ---
 
-### 10. Resend HTTPS Email Dispatch for Cloud / Render Environments
-- **Context:** Cloud platforms such as Render block all outbound traffic on standard SMTP ports (25, 465, and 587) on their Free tier to prevent spam. This caused email verification on live deployments to time out (`ETIMEDOUT`).
-- **Decision:** Implemented native HTTPS dispatch via Resend's REST API (`https://api.resend.com/emails`) in `src/services/email.service.js` using Node.js built-in `fetch` (zero additional runtime dependencies). When `RESEND_API_KEY` is present in environment variables, outgoing OTP emails are delivered via HTTPS Port 443 with automatic fallback to `Clinic <onboarding@resend.dev>` if an unverified custom or Gmail domain is used. When `RESEND_API_KEY` is omitted, standard Nodemailer SMTP is used.
-- **Rationale:** Guarantees 100% reliable email delivery on Render Free tier without requiring a paid plan or adding unauthorized runtime packages.
+### 10. Resend HTTPS Email Dispatch (Replaced Nodemailer)
+- **Context:** The user requested completely removing Nodemailer for emails. Cloud platforms such as Render block outbound traffic on standard SMTP ports (25, 465, and 587) on their Free tier to prevent spam, causing SMTP timeouts.
+- **Decision:** Removed `nodemailer` runtime dependency and deleted `src/config/mailer.js`. Implemented native HTTPS dispatch via Resend's REST API (`https://api.resend.com/emails`) in `src/services/email.service.js` using Node.js built-in `fetch` (zero additional runtime dependencies). Configured `RESEND_API_KEY` in environment variables with automatic sender fallback to `Clinic <onboarding@resend.dev>`. In development/testing environments without an active API key, the OTP is logged to the console for testing.
+- **Rationale:** Reduces dependencies, eliminates SMTP configuration overhead (host, port, user, password), avoids cloud provider SMTP port blocking, and delivers emails reliably over HTTPS port 443.
 
 
 

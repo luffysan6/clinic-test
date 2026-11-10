@@ -12,11 +12,6 @@ const requiredVars = [
   'ADMIN_EMAIL',
   'ADMIN_PASSWORD',
   'ADMIN_NAME',
-  'SMTP_HOST',
-  'SMTP_PORT',
-  'SMTP_USER',
-  'SMTP_PASS',
-  'MAIL_FROM',
 ];
 
 const missing = requiredVars.filter((key) => !process.env[key]);
@@ -36,11 +31,7 @@ const jwtExpiresIn = process.env.JWT_EXPIRES_IN;
 const adminEmail = process.env.ADMIN_EMAIL;
 const adminPassword = process.env.ADMIN_PASSWORD;
 const adminName = process.env.ADMIN_NAME;
-const smtpHost = process.env.SMTP_HOST;
-const smtpPort = parseInt(process.env.SMTP_PORT, 10) || 587;
-const smtpUser = process.env.SMTP_USER;
-const smtpPass = process.env.SMTP_PASS;
-const mailFrom = process.env.MAIL_FROM;
+const mailFrom = process.env.MAIL_FROM || 'Clinic <onboarding@resend.dev>';
 const otpExpiryMinutes = parseInt(process.env.OTP_EXPIRY_MINUTES, 10) || 10;
 const corsOrigin = process.env.CORS_ORIGIN || 'http://localhost:3000';
 
@@ -49,7 +40,7 @@ const cloudinaryCloudName = process.env.CLOUDINARY_CLOUD_NAME || '';
 const cloudinaryApiKey = process.env.CLOUDINARY_API_KEY || '';
 const cloudinaryApiSecret = process.env.CLOUDINARY_API_SECRET || '';
   
-// Optional Resend HTTP Email API (works over Port 443 for Render Free tier)
+// Resend HTTP Email API (works over Port 443 via native fetch)
 const resendApiKey = process.env.RESEND_API_KEY || '';
 
 const config = Object.freeze({
@@ -61,10 +52,6 @@ const config = Object.freeze({
   ADMIN_EMAIL: adminEmail,
   ADMIN_PASSWORD: adminPassword,
   ADMIN_NAME: adminName,
-  SMTP_HOST: smtpHost,
-  SMTP_PORT: smtpPort,
-  SMTP_USER: smtpUser,
-  SMTP_PASS: smtpPass,
   MAIL_FROM: mailFrom,
   OTP_EXPIRY_MINUTES: otpExpiryMinutes,
   CORS_ORIGIN: corsOrigin,
@@ -82,10 +69,6 @@ const config = Object.freeze({
   adminEmail,
   adminPassword,
   adminName,
-  smtpHost,
-  smtpPort,
-  smtpUser,
-  smtpPass,
   mailFrom,
   otpExpiryMinutes,
   corsOrigin,

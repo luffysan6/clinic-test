@@ -107,17 +107,13 @@ cp .env.example .env
 | `ADMIN_EMAIL` | Initial admin account email | `admin@clinic.com` |
 | `ADMIN_PASSWORD` | Initial admin account password | `ChangeMe@123` |
 | `ADMIN_NAME` | Initial admin display name | `Clinic Admin` |
-| `SMTP_HOST` | SMTP server host | `smtp.gmail.com` |
-| `SMTP_PORT` | SMTP server port | `587` |
-| `SMTP_USER` | SMTP username | `you@gmail.com` |
-| `SMTP_PASS` | SMTP password / App password | `app_password` |
-| `MAIL_FROM` | Outgoing email `From` address | `Clinic <you@gmail.com>` |
+| `RESEND_API_KEY` | Resend API Key for HTTPS email delivery | `re_123456789` |
+| `MAIL_FROM` | Outgoing email `From` address | `Clinic <onboarding@resend.dev>` |
 | `OTP_EXPIRY_MINUTES`| OTP expiration duration in minutes | `10` |
 | `CORS_ORIGIN` | Allowed CORS origin | `http://localhost:3000` |
 | `CLOUDINARY_CLOUD_NAME` | Cloudinary account cloud name (optional) | `your_cloud_name` |
 | `CLOUDINARY_API_KEY` | Cloudinary API Key (optional) | `your_api_key` |
 | `CLOUDINARY_API_SECRET` | Cloudinary API Secret (optional) | `your_api_secret` |
-| `RESEND_API_KEY` | Resend API Key for Render Free HTTPS email (optional) | `re_123456789` |
 
 ---
 
